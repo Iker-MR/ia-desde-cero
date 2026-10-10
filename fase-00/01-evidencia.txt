@@ -1,0 +1,25 @@
+﻿
+=== AI Engineering from Scratch: Environment Check ===
+
+Route: Beginner course (`--route beginner`)
+
+  [PASS] Python 3.11+ (required now)
+         Python 3.12.13 at C:\Users\Nitropc\curso-ia\ai-engineering-from-scratch\.venv\Scripts\python.exe
+  [PASS] Git (required now)
+         git version 2.51.0.windows.1 at C:\Program Files\Git\cmd\git.EXE
+
+Later checks skipped: 9 tools are not needed to start. Add `--show-later` when you want to inspect them.
+
+Result: 2/2 required checks passed
+Ready to start Beginner course.
+Next: python3 phases/01-math-foundations/01-linear-algebra-intuition/code/vectors.py
+
+--- Notas ---
+Comando: python phases/00-setup-and-tooling/01-dev-environment/code/verify.py --route beginner
+Carpeta: C:\Users\Nitropc\curso-ia\ai-engineering-from-scratch
+Resultado: 2/2 checks OK
+
+Aprendido:
+- Un entorno de IA tiene 4 capas: sistema, gestores de paquetes, lenguajes, librerías.
+- uv gestiona Python y entornos virtuales (.venv es como node_modules).
+- En Windows se usa "python", no "python3".
