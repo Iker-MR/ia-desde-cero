@@ -1,0 +1,3 @@
+CPU de Colab	2,056 s	3,3x + lenta
+Tu CPU (Ryzen)	0,621 s	referencia
+GPU T4 (Colab)	0,072 s	8,6x + rapida
