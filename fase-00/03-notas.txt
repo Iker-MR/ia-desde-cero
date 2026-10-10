@@ -1,0 +1,38 @@
+=== Lección 0.03: GPU Setup & Cloud ===
+
+--- Mi hardware ---
+- PC: CPU AMD Ryzen + gráfica AMD Radeon integrada. Sin NVIDIA, sin CUDA.
+- nvidia-smi no existe en mi PC porque no tengo GPU NVIDIA.
+- Para lo que necesite GPU: Google Colab (Tesla T4, 15,6 GB VRAM, gratis).
+
+--- Benchmark: multiplicar dos matrices 5000x5000 (~250.000 millones de operaciones) ---
+| Hardware        | Tiempo  | Frente a mi PC     |
+| CPU Colab       | 2,056 s | 3,3x más lenta     |
+| Mi CPU (Ryzen)  | 0,621 s | referencia         |
+| GPU T4 (Colab)  | 0,072 s | 8,6x más rápida    |
+En Colab, la T4 fue 29x más rápida que su propia CPU.
+
+--- Por qué la GPU es más rápida ---
+- La IA es sobre todo multiplicar matrices enormes.
+- CPU: pocos núcleos potentes, trabajan en serie.
+- GPU: miles de núcleos sencillos, trabajan en paralelo.
+- CUDA: plataforma de NVIDIA para ejecutar código en la GPU.
+
+--- Detalles del código ---
+- torch.cuda.synchronize(): la GPU es asíncrona (como una Promise sin await).
+  Sin esto, el cronómetro mide solo el envío de la orden, no el cálculo.
+- Calentamiento: la 1ª operación en GPU es más lenta (prepara CUDA); se descarta.
+- La copia CPU -> GPU (.cuda()) se hace fuera del cronómetro.
+
+--- Memoria (VRAM) y tamaño de modelos ---
+- VRAM = memoria de la GPU. Limita el tamaño del modelo.
+- Regla: memoria = parámetros x bytes por parámetro.
+  - fp32 = 4 bytes, fp16 = 2 bytes, 4 bits (cuantizado) = 0,5 bytes.
+- Ejemplo: modelo 7B en fp16 = 7.000 millones x 2 bytes = ~14 GB.
+- En la práctica hay menos VRAM útil: CUDA reserva ~1 GB, y al usar el modelo
+  hacen falta activaciones y caché.
+
+--- PREGUNTA DE ENTREVISTA: usar vs entrenar ---
+| Para qué                 | Bytes/parámetro | Máximo en una T4 (15,6 GB) |
+| Entrenar (fp16 + Adam)   | ~16             | menos de 1B                |
+| Usar / inferencia (fp16) | 2               | ~7B
