@@ -1,0 +1,40 @@
+=== Lección 0.04: APIs & Keys ===
+
+--- Una llamada a un LLM es una petición HTTP normal ---
+- Endpoint: POST https://api.anthropic.com/v1/messages
+- Cabeceras: x-api-key (mi clave) + anthropic-version
+- Body JSON: model, max_tokens, messages [{role, content}]
+- Respuesta JSON: content (lista de bloques), stop_reason, usage (tokens)
+- El SDK hace esta misma petición por debajo, más reintentos automáticos.
+
+--- Seguridad de la API key ---
+- La clave es una contraseña: nunca en el código, ni en Git, ni en un chat.
+- Va en .env, y .env va en .gitignore ANTES de crearlo.
+- Comprobar con: git status  y  git check-ignore -v ruta\.env
+- load_dotenv NO sobrescribe variables que ya existen en el sistema.
+
+--- Tokens ---
+- Unidad de lectura/escritura del modelo; se paga por tokens de entrada y de salida.
+- Tokens != palabras: con max_tokens=10 salió "Una red neuronal es un mod".
+- En español: ~2,4 tokens/palabra (en inglés ~1,3). El español cuesta más.
+- Mi primera llamada: 29 tokens de entrada, 84 de salida.
+
+--- stop_reason ---
+- end_turn: el modelo terminó por sí mismo.
+- max_tokens: respuesta CORTADA, pero la API devuelve 200 OK sin error.
+  => Revisar siempre stop_reason en producción.
+
+--- No determinismo ---
+- Misma pregunta, dos respuestas distintas (84 y 88 tokens).
+- Los LLMs eligen cada token con cierta aleatoriedad.
+- No se puede testear con assert respuesta == "texto exacto".
+
+--- Errores HTTP ---
+| Código | Significado                                | ¿Reintentar? |
+| 401    | Clave inválida (authentication_error)      | No           |
+| 400    | Petición mal formada                       | No           |
+| 429    | YO he superado mi límite de peticiones     | Sí, backoff  |
+| 529    | Servidor sobrecargado (por todos)          | Sí, backoff  |
+- Exponential backoff: esperar 1, 2, 4, 8 s... + jitter (aleatoriedad).
+- Si viene la cabecera retry-after, respetarla.
+- request_id: identifica la petición, útil para soporte.
