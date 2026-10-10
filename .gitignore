@@ -10,3 +10,5 @@ data/
 
 # Notebooks: checkpoints automáticos
 .ipynb_checkpoints/
+# Claves y secretos
+.env
