@@ -1,0 +1,12 @@
+# Pesos de modelos (pueden pesar gigas)
+*.pt
+*.pth
+*.safetensors
+*.ckpt
+
+# Datos
+data/
+*.csv.gz
+
+# Notebooks: checkpoints automáticos
+.ipynb_checkpoints/
