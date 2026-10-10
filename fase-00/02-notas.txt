@@ -1,0 +1,8 @@
+s--- Lección 0.02: Git & Collaboration ---
+
+- Fork = mi copia del repo en GitHub. origin = mi fork, upstream = el original.
+- Trabajo en la rama my-progress; main queda limpia para actualizar.
+- .gitignore no guarda nada: es una lista de lo que Git ignora.
+- Los pesos de modelos (.pt) no van a Git: pesan mucho y son binarios.
+  Se guardan en disco local, Hugging Face Hub, S3 o con Git LFS.
+- Error que tuve: copié "TU-USUARIO" literal. Se arregla con git remote set-url.
