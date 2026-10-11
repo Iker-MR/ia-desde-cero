@@ -1,0 +1,39 @@
+=== Lección 0.05: Jupyter Notebooks ===
+
+--- Qué es ---
+- Notebook (.ipynb): documento de celdas de código y de markdown.
+- Kernel: el proceso de Python detrás del notebook. Todas las celdas comparten
+  sus variables. Restart = borra toda la memoria.
+- Uso Jupyter dentro de VS Code: extensiones Python + Jupyter (Microsoft).
+
+--- Problemas que tuve ---
+- No salía ningún kernel: faltaba la extensión de Python (no basta con Jupyter).
+- "Not available in untrusted workspaces": hay que confiar en la carpeta
+  (Ctrl+Shift+P > Workspaces: Manage Workspace Trust > Trust).
+- Kernel: Select Kernel > Python Environments > .venv. Necesita ipykernel.
+
+--- Trampa: el estado oculto ---
+- Borré la celda "x = 10" y el print(x * 2) seguía funcionando:
+  la variable seguía viva en la memoria del kernel.
+- Tras Restart: NameError. El notebook dependía de algo que ya no existía.
+- Regla: antes de dar un notebook por bueno -> Restart + Run All.
+
+--- Magics (comandos de Jupyter, no de Python) ---
+- %timeit   -> repite muchas veces y da media ± desviación (una línea)
+- %%time    -> mide la celda entera una vez (útil para entrenamientos)
+- !comando  -> ejecuta un comando de terminal (ej: !nvidia-smi)
+
+--- NumPy vs Python puro (100.000 números aleatorios) ---
+| Python puro (bucle) | 5,18 ms  |
+| NumPy               | 0,647 ms |  -> ~8x más rápido
+Por qué:
+  1. Python interpreta cada vuelta del bucle y crea un objeto por número (~28 bytes).
+  2. NumPy está escrito en C: una sola llamada, el bucle se hace en C compilado.
+  3. Datos contiguos y del mismo tipo (8 bytes cada uno) -> el procesador
+     los lee rápido y opera con varios a la vez (SIMD).
+- Vectorización: pasar el array entero a NumPy en vez de escribir un for.
+- Analogía: N+1 consultas a la BD vs un solo SELECT.
+- Regla: si escribo un for sobre números, buscar la versión con NumPy.
+
+--- Regla del curso ---
+- Explorar en notebooks, publicar en scripts (.py).
