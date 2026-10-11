@@ -1,0 +1,32 @@
+=== Lección 0.06: Python Environments ===
+
+--- El problema: dependency hell ---
+- Instalar paquetes globalmente sobrescribe versiones y rompe otros proyectos.
+- En IA es peor: PyTorch, CUDA y librerías de modelos exigen versiones concretas.
+- Solución: un entorno aislado por proyecto.
+
+--- Equivalencias con Node ---
+| .venv/          | node_modules/      |
+| pyproject.toml  | package.json       |
+| uv.lock         | package-lock.json  |
+| uv add numpy    | npm install numpy  |
+- Diferencia: en Python hay que ACTIVAR el entorno (.venv\Scripts\activate).
+  Si no, se instala en el Python global (error número 1).
+
+--- Comprobaciones ---
+- where.exe python  -> el primero de la lista es el que se usa (debe ser .venv).
+- Experimento: dos entornos con NumPy distinto en el mismo PC, sin conflicto.
+
+--- Reproducibilidad ---
+- Lockfile: versiones EXACTAS de todo, incluidas las dependencias transitivas
+  (dependencias de mis dependencias).
+- uv pip freeze | Out-File -Encoding utf8 mi-trabajo\requirements.txt
+  (OJO: en PowerShell no usar ">" porque guarda en UTF-16 y pip no lo lee.)
+- Git guarda la receta (requirements.txt / uv.lock), no el plato (.venv).
+
+--- Recrear el entorno en otro PC ---
+1. git clone de mi fork + git checkout my-progress
+2. uv venv + .venv\Scripts\activate
+3. uv pip install -r mi-trabajo\requirements.txt
+4. Crear el .env a mano (la API key NO está en GitHub).
+   Buena práctica: subir un .env.example con los nombres y sin los valores.
