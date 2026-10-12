@@ -1,0 +1,35 @@
+=== Lección 0.09: Data Management ===
+
+--- Hugging Face ---
+- "GitHub de la IA": datasets y modelos públicos.
+- load_dataset("stanfordnlp/imdb") descarga y guarda en caché
+  (C:\Users\Nitropc\.cache\huggingface). La 2ª vez carga al instante.
+- IMDB: 50.000 reseñas de películas, etiqueta 0 = negativa, 1 = positiva.
+
+--- Formatos (IMDB train, 25.000 reseñas) ---
+| CSV     | 33,3 MB | legible, lento, todo es texto         |
+| JSON    | 33,9 MB | repite los nombres de columna en cada fila |
+| Parquet | 20,5 MB | -38%, rápido, columnar, guarda los tipos |
+- Parquet = formato estándar para guardar datasets.
+- Con texto la diferencia es moderada; con números, mucho mayor.
+
+--- Las tres divisiones ---
+- Train (~80%): libro de texto -> el modelo aprende.
+- Validation (~10%): exámenes de práctica -> ajustar durante el entrenamiento.
+- Test (~10%): examen final -> se mira UNA vez, al final.
+- seed=42: el azar sale siempre igual -> experimento reproducible.
+- Mi resultado: 20.000 / 2.500 / 2.500, todas ~50% positivas (equilibradas).
+
+--- Dos errores distintos (pregunta de entrevista) ---
+1. Data leakage: el test se cuela en el entrenamiento.
+   = ver el examen antes de hacerlo. La nota sale inflada.
+2. División no representativa: train y test son distintos.
+   IMDB viene ORDENADO (primero negativas, luego positivas).
+   Sin mezclar: train 38% positivas, test 100% positivas.
+   -> el modelo aprende un mundo falso y la nota del test miente
+      (decir siempre "positiva" daría un 100%).
+   Solución: mezclar antes de dividir (shuffle=True) y comprobar proporciones.
+
+--- Regla ---
+- Antes de entrenar: MIRAR los datos (imprimir ejemplos, contar proporciones).
+- Los datos no van a Git: la carpeta data/ está en .gitignore.
