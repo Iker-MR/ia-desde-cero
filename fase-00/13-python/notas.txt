@@ -1,0 +1,25 @@
+=== Lección 0.13: Python for AI Engineering (parte 1) ===
+
+--- Tres errores que NO dan error ---
+
+1. Dos nombres, una lista
+   copia = pesos  -> NO copia, es otro nombre para la misma lista.
+   Cambiar copia cambia pesos. (Igual que en JS con arrays/objetos.)
+   Corrección: copia = pesos.copy()  o  list(pesos)
+
+2. Argumento por defecto mutable
+   def f(x, lote=[]): la lista se crea UNA vez y se reutiliza en cada llamada.
+   f(1) -> [1], f(2) -> [1, 2]   (en JS daría [2]: allí se crea cada vez)
+   Corrección: lote=None y dentro: if lote is None: lote = []
+
+3. Generador agotado
+   Un generador produce los datos uno a uno y se vacía al terminar.
+   Época 0: [0, 1, 2]  /  Época 1: []   -> sin ningún error.
+   En IA: solo se entrena la 1ª época, la pérdida se congela y no te enteras.
+   Corrección: crear el generador de nuevo en cada época.
+   Ventaja de los generadores: memoria (uno a uno en vez de todo a la vez).
+
+--- Otros ---
+- Git abre Vim para el mensaje del merge: Esc, :wq, Enter.
+  Para usar VS Code: git config --global core.editor "code --wait"
+- git pull upstream main: traer las novedades del curso original.
