@@ -1,0 +1,35 @@
+=== Lección 0.12: Debugging & Profiling ===
+
+--- La idea ---
+- En web un error rompe algo. En IA el código suele fallar EN SILENCIO:
+  se ejecuta sin errores y da un resultado malo (modelo inútil tras horas).
+- Por eso se depura revisando los datos que pasan, no solo esperando excepciones.
+
+--- Bugs típicos de IA ---
+| Forma incorrecta (shape) | x @ W con formas que no encajan | SÍ da error |
+| NaN                      | log(0), 0/0, inf - inf           | NO da error |
+| Data leakage             | el test se cuela en el train     | NO da error |
+| Dispositivo equivocado   | datos en CPU y modelo en GPU     | a veces     |
+
+--- NaN ---
+- log(0) = -inf  ->  inf - inf = NaN  ->  NaN + 1 = NaN (lo contagia todo).
+- Si la pérdida es NaN, los pesos del modelo acaban siendo NaN.
+- Corrección típica: probs.clamp(min=1e-8) antes del log.
+- debug_print(nombre, tensor): forma, tipo, dispositivo, min, max, ¿NaN?, ¿Inf?
+
+--- Profiling: medir antes de optimizar ---
+- python -m cProfile -s cumtime script.py | Select-Object -First 15
+- cumtime = tiempo total de la función (incluye lo que llama).
+- tottime = tiempo solo dentro de la función.
+Mi resultado (perfil.py, 3 millones de números):
+| cargar_datos | 0,412 s | lista de Python -> EL CUELLO DE BOTELLA |
+| entrenar     | 0,318 s | 20 pasadas con NumPy (40 operaciones por número) |
+| normalizar   | 0,204 s | 1 operación por número en Python |
+| import numpy | 0,294 s | importar NumPy ya cuesta casi lo mismo |
+- Lo lento suele ser cargar/preparar datos, no el modelo.
+- La intuición falla: sin medir habría optimizado la función equivocada.
+
+--- Otras herramientas (para más adelante) ---
+- breakpoint(): para el programa y permite inspeccionar variables (p var, c, q).
+- logging: registrar a consola y archivo (mejor que print en entrenamientos largos).
+- TensorBoard: gráficas de la pérdida durante el entrenamiento (fase 3).
