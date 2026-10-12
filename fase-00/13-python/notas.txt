@@ -23,3 +23,30 @@
 - Git abre Vim para el mensaje del merge: Esc, :wq, Enter.
   Para usar VS Code: git config --global core.editor "code --wait"
 - git pull upstream main: traer las novedades del curso original.
+
+=== Lección 0.13 (parte 2) ===
+
+--- Modismos (equivalente en JS) ---
+| f"pérdida: {loss:.4f}"       | template literal       |
+| x, y = punto                 | destructuring          |
+| [x*2 for x in xs if x > 0]   | .map() / .filter()     |
+| {k: v for k, v in pares}     | Object.fromEntries     |
+| with open(...)               | try/finally            |
+| if __name__ == "__main__":   | require.main === module|
+- En el curso nadie usa map()/filter(): se usan comprensiones.
+
+--- @dataclass ---
+- Clase solo de datos: Python genera constructor, print y comparación.
+- frozen=True -> inmutable (evita modificar datos por accidente).
+- Está en la mitad de los archivos del curso.
+
+--- Resultados de main.py (tests OK) ---
+- split: 320 train / 80 test, 0 registros repetidos (sin leakage).
+- batches de 48: [48 x6, 32] -> se entrena por lotes.
+- Precisión: raw 0.86 -> estandarizado 0.89.
+  Las características tenían escalas distintas (2-4 vs 50-70);
+  la grande dominaba las distancias. Estandarizar (media 0, desv. 1) lo iguala.
+  La estandarización se calcula SOLO con train (si no, leakage).
+- Memoria (suma de 100.000 cuadrados): lista 4.000.504 B vs generador 528 B (~7.500x).
+- Velocidad (producto escalar 200.000): bucle 9,3 ms, zip 12,5 ms, map 4,7 ms.
+  En mi PC zip fue más lento que el bucle (al revés que al autor): medir, no suponer.
