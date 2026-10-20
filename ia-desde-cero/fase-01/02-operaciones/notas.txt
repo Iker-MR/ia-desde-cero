@@ -1,0 +1,40 @@
+=== Lección 1.02: Vectors, Matrices & Operations ===
+
+--- Determinante: cuánto multiplica las áreas ---
+- det [[a, b], [c, d]] = a×d − b×c   (es UN número, no un vector)
+| escalar x2,y3 | 6  | área ×6                      |
+| rotar 90°     | 1  | gira, el área no cambia      |
+| A=[[1,2],[3,4]]| -2 | área ×2 y da la vuelta (espejo) |
+| aplastar      | 0  | se aplasta en una línea      |
+- det = 0  <=>  columnas dependientes (rango bajo)  <=>  se pierde información.
+
+--- Inversa: deshacer ---
+- A @ A⁻¹ = I. Si y = A @ x, entonces x = A⁻¹ @ y.
+- 2×2: A⁻¹ = 1/det × [[d, -b], [-c, a]]
+- [3,1] -> A -> [5,13] -> A⁻¹ -> [3,1]
+- det = 0 -> no hay inversa (1/0): "Singular matrix". Matriz singular.
+- A @ A⁻¹ no da exactamente I (sale 8.88e-16): error de coma flotante.
+  Nunca comparar con ==, usar np.allclose().
+
+--- Identidad ---
+- Unos en la diagonal y ceros fuera. Como multiplicar por 1.
+- Aparece en las conexiones residuales: y = x + f(x).
+
+--- Broadcasting ---
+- NumPy estira el vector más pequeño para sumarlo a cada fila.
+- Así se suma el sesgo b a todo el lote: (lote × neuronas) + (neuronas).
+- Cuidado: si las formas encajan por casualidad, no avisa.
+
+--- Red de dos capas: relu(X @ W + b) ---
+- ReLU = max(0, z). Sin activación, 2 capas = 1 sola matriz.
+- Formas: los de dentro coinciden y desaparecen, los de fuera quedan.
+  X (5×3) @ W1 (3×4) -> H (5×4)
+  H (5×4) @ W2 (4×2) -> Y (5×2)
+  Filas = ejemplos (entran 5, salen 5). Columnas = neuronas.
+- Parámetros: 12 + 4 + 8 + 2 = 26. No dependen del tamaño del lote.
+- ReLU deja ceros: neurona no activada para ese ejemplo (normal).
+  Si da 0 para TODOS los ejemplos: neurona muerta (fase 3).
+
+--- Errores que cometí ---
+- Pensar que el determinante da un vector (0,0): da un número.
+- Multiplicar las formas en vez de cancelar las de dentro.
