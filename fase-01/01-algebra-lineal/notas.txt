@@ -1,0 +1,31 @@
+=== Lección 1.01: Linear Algebra Intuition ===
+
+--- Parte 1: vectores y matrices ---
+- Vector: lista de números = punto y flecha. En IA, todo es un vector (embeddings).
+- Producto escalar a·b = suma de a_i×b_i = |a||b|cos θ. Da UN número.
+  > 0 parecidos, = 0 perpendiculares, < 0 opuestos.
+- Similitud coseno = a·b / (|a||b|), de -1 a 1. Base del RAG y la búsqueda semántica.
+  rey-reina 0,998 · rey-manzana 0,190
+- Matriz (m×n) @ vector (n) -> vector (m). Cada fila hace un producto escalar.
+- Capa neuronal: y = W @ x + b. Cada fila de W es una neurona.
+
+--- Parte 2: ¿cuánta información real hay? ---
+- Independencia lineal: ningún vector se puede fabricar con los demás.
+  v3 = 2·v1 + v2 -> no aporta nada nuevo.
+- Rango = número de columnas realmente independientes (NO el número de columnas).
+  Pisos: 3 columnas (m2, euros, dólares) pero rango 2 (dólares = euros × 1,08).
+  Columnas redundantes = multicolinealidad -> pesos inestables.
+- Proyección: proy_b(a) = (a·b / b·b) × b. La "sombra" de a sobre b.
+  El residuo a - proy es perpendicular a b (residuo · b = 0).
+  Proyectar sobre [1,1,1] = la media. [1,2,3] -> [2,2,2]. Residuo = desviaciones.
+- Gram-Schmidt: convierte vectores en ejes perpendiculares de longitud 1
+  quitando a cada uno sus sombras sobre los anteriores.
+  Si un vector se queda en 0, era redundante -> también cuenta el rango.
+- Q @ Q.T = identidad  <=>  base ortonormal (comprueba todas las parejas a la vez).
+- LoRA: aprende los cambios de pesos como 2 matrices delgadas de rango bajo.
+  4096×4096 = 16,7 M números -> 4096×8 + 8×4096 = 65.536 (256 veces menos).
+
+--- Errores que cometí ---
+- Pensar que rango = número de columnas.
+- Hacer residuo × b elemento a elemento ((0,0)) en vez del producto escalar (0).
+  Es la confusión entre * y @.
