@@ -1,0 +1,41 @@
+=== Lección 1.03: Matrix Transformations & Eigenvalues ===
+
+--- Transformaciones nuevas ---
+| Corte [[1,1],[0,1]]     | inclina (baraja empujada por arriba): x' = x + y | det 1  |
+| Reflexión [[-1,0],[0,1]]| espejo respecto al eje vertical                  | det -1 |
+- Corte del cuadrado: [0,0]->[0,0], [1,0]->[1,0], [1,1]->[2,1], [0,1]->[1,1]
+  Abajo no se mueve, arriba se desplaza 1. El área sigue siendo 1.
+
+--- Autovectores y autovalores ---
+- A @ v = λ × v : direcciones que la matriz solo estira, sin girarlas.
+- A = [[2,1],[1,2]]:  A @ [1,1] = 3×[1,1]   A @ [1,-1] = 1×[1,-1]
+  -> la matriz "estira ×3 en diagonal" y deja igual la otra diagonal.
+- Son los ejes naturales de la matriz. Cualquier otro vector es una mezcla
+  y por eso cambia de dirección.
+- 2×2: λ² − (a+d)·λ + det = 0.   NumPy: np.linalg.eigh (simétricas) / eig.
+- Rotación 90°: autovalores imaginarios (±1j) -> ninguna dirección sobrevive.
+  Rotación 180°: todas son autovectores con λ = -1.
+
+--- Descomposición: A = V @ D @ V⁻¹ ---
+- V: autovectores en columnas. D: autovalores en la diagonal.
+- Leer de derecha a izquierda: girar a los ejes naturales, estirar, volver.
+- Reconstruye exactamente la matriz original.
+
+--- Multiplicar muchas veces (método de la potencia) ---
+- [1,0] = 0.5·[1,1] + 0.5·[1,-1]. Tras 10 pasos con A: 0.5·3¹⁰·[1,1] + 0.5·[1,-1]
+  -> longitud 41.754, dirección [0.707, 0.707].
+- Con 0.3·A (autovalores 0.9 y 0.3): se encoge (0.25) pero también apunta a [1,1].
+- REGLA: la dirección final la decide el autovalor MÁS GRANDE.
+  La longitud: explota si es > 1, se desvanece si es < 1.
+- Así funciona PageRank.
+
+--- Por qué importa en IA ---
+- Gradientes que explotan (λ > 1) o se desvanecen (λ < 1) en redes profundas
+  y recurrentes. Inicialización, normalización y residuales buscan λ ≈ 1.
+- PCA (1.10): autovectores de los datos = direcciones de máxima variación.
+
+--- Errores que cometí ---
+- Al aplicar el corte a [1,0] y [0,1] se me escaparon los ceros.
+  Truco: escribir siempre la multiplicación posición a posición.
+- Pensar que con 0.3·A ganaba la dirección [1,-1]: gana la que se encoge
+  MÁS DESPACIO (autovalor más grande).
