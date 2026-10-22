@@ -44,3 +44,41 @@
 - Con tasa 1,1 usé x como pendiente en vez de 2x.
 - Gradiente de 3y²: es 6y, no 3y.
 - MSE: elevar al cuadrado CADA error antes de la media.
+
+=== Lección 1.04 (parte 2) ===
+
+--- Regla de la cadena ---
+- Funciones encadenadas: derivada = (derivada de fuera) × (derivada de dentro).
+  Como las divisas: euro -> dólar (×1,08) -> yen (×150) = ×162.
+- y = (3x+1)²: u = 3x+1 (du/dx = 3), y = u² (dy/du = 2u) -> dy/dx = 6(3x+1). En x=1: 24.
+- y = (2x-5)² en x = 4: u = 3 -> 2·3 × 2 = 12 ✓
+
+--- De dónde sale el gradiente de mi entrenamiento ---
+- L = (w·x + b - y)²   ->   u = error = w·x + b - y,  L = u²
+- ∂u/∂w = x   (el número que acompaña a w)
+  ∂u/∂b = 1   (b sola: si sube 1, sube 1)
+- ∂L/∂w = 2·error·x     ∂L/∂b = 2·error   = las líneas de mi código ✓
+- Gradiente proporcional al error (si acierta, no corrige).
+  w va multiplicado por x: cuanto mayor es x, más responsabilidad tiene w.
+- Retropropagación = aplicar la regla de la cadena desde la pérdida hacia atrás,
+  capa a capa. Es EL algoritmo del deep learning (fase 3).
+- Gradient check: comparar la fórmula con el truco numérico. -31,8 y -10,6 ✓
+
+--- Hessiana (curvatura) ---
+- Segunda derivada = cómo cambia la pendiente. x² -> 2.
+- x² + 3y² -> Hessiana [[2,0],[0,6]]. Sus autovalores = curvatura en cada dirección.
+- El descenso diverge si tasa > 2 / (autovalor más grande) = 2/6 ≈ 0,33.
+- Método de Newton (usa la Hessiana): imposible en redes grandes (N × N números).
+
+--- Taylor ---
+- f(x+paso) ≈ f(x) + f'(x)·paso + ½·f''(x)·paso²
+- El descenso de gradiente supone que la función es casi una recta CERCA.
+  Si el paso es grande, falla -> otra razón por la que una tasa grande diverge.
+
+--- Jacobiana ---
+- Derivadas de una función que devuelve un vector: filas = salidas, columnas = entradas.
+- Para una capa lineal y = W @ x, la Jacobiana es la propia W.
+
+--- Errores que cometí ---
+- Al derivar respecto a w, traté w como fija (dije ∂u/∂w = w y ∂u/∂b = 0).
+  Es al revés: la variable que derivas es la que se mueve; las demás son fijas.
