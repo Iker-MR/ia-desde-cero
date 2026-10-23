@@ -1,3 +1,5 @@
+import math
+
 class Valor:
     """Un número que recuerda de dónde viene y guarda su gradiente."""
 
@@ -36,6 +38,34 @@ class Valor:
         sal._backward = _backward
         return sal
 
+    # ---------- Bloque 2: más operaciones ----------
+    def __neg__(self):                 # -x  es  x * (-1)
+        return self * -1
+
+    def __sub__(self, otro):           # a - b  es  a + (-b)
+        return self + (-otro)
+
+    def __radd__(self, otro):          # 2 + x  (el número va delante)
+        return self + otro
+
+    def __rmul__(self, otro):          # 2 * x
+        return self * otro
+
+    def __pow__(self, n):              # x ** n, con n un número normal
+        sal = Valor(self.dato ** n, (self,), f"**{n}")
+        def _backward():
+            self.grad += n * self.dato ** (n - 1) * sal.grad
+        sal._backward = _backward
+        return sal
+
+    def tanh(self):
+        t = math.tanh(self.dato)
+        sal = Valor(t, (self,), "tanh")
+        def _backward():
+            self.grad += (1 - t**2) * sal.grad
+        sal._backward = _backward
+        return sal
+
     def backward(self):
         # 1) Ordenar el grafo: cada nodo después de los que lo producen
         orden, visitados = [], set()
@@ -68,3 +98,9 @@ if __name__ == "__main__":
     y = (x1 * x2 + b).relu()
     y.backward()
     print("\nCon x2 = -3:    y =", y.dato, "| dy/dx1 =", x1.grad, "| dy/dx2 =", x2.grad, "| dy/db =", b.grad)
+
+    # y = x * x  ->  la misma x por dos caminos
+    x = Valor(3.0)
+    y = x * x
+    y.backward()
+    print("\ny = x · x con x = 3:  dy/dx =", x.grad, "(debería ser 2x = 6)")
