@@ -80,3 +80,45 @@ ERRORES QUE COMETÍ
 - No sabía qué haría la comprobación al romper la tanh:
   el numérico no cambia, el autodiff sí, y por eso salta el FALLO.
 
+
+LECCIÓN 1.05 · BLOQUE 3 — MI PRIMERA RED NEURONAL (XOR)
+
+NEURONA
+- neurona(x) = tanh(w1·x1 + w2·x2 + ... + b)
+- Pesos (w) y sesgo (b) = lo que la red APRENDE (son objetos Valor).
+- Capa = lista de neuronas con las mismas entradas.
+- Red = capas en fila: la salida de una es la entrada de la siguiente.
+
+CONTAR PARÁMETROS
+- Cada neurona: un peso por entrada + 1 sesgo.
+- Red([2, 4, 1]):  oculta 4 × (2 + 1) = 12  |  salida 1 × (4 + 1) = 5  →  17
+- Red([3, 5, 1]):  oculta 5 × (3 + 1) = 20  |  salida 1 × (5 + 1) = 6  →  26
+
+XOR
+- Salida 1 si las entradas son distintas, -1 si son iguales.
+- Una neurona solo separa con una LÍNEA RECTA, y en XOR no hay
+  ninguna línea que separe las dos diagonales → hace falta capa oculta.
+- Históricamente se usó para decir que las redes no servían.
+  Lo resolvió la backpropagation.
+
+BUCLE DE ENTRENAMIENTO (los mismos 4 pasos de la 1.04)
+1. Hacia delante: predicciones y pérdida
+2. Gradientes a 0 (por el +=)
+3. perdida.backward()   ← ANTES lo deducía a mano (2·error·x)
+4. p.dato -= tasa * p.grad
+
+RESULTADOS
+- Red([2, 4, 1]), 100 pasos:  pérdida 4,15 → 0,17
+  Predicciones: -0,86 / 0,77 / 0,80 / -0,76  (objetivo -1 / 1 / 1 / -1)  ✅
+- Red([2, 1]), 500 pasos:  pérdida clavada en 4,0, predice 0 en todo  ❌
+  ¿Por qué 4? Predecir 0 con objetivos ±1 → 1 + 1 + 1 + 1 = 4.
+
+LECCIÓN PRÁCTICA
+- Si la pérdida se ESTANCA en un valor alto, entrenar más no lo arregla:
+  puede que el modelo sea demasiado simple (falta capacidad).
+
+APUESTAS: 17 parámetros ✅ | aprende XOR ✅ | una neurona no puede ✅
+
+ERRORES QUE COMETÍ
+- No entendía qué preguntaban las apuestas 2 y 3 (qué es la pérdida
+  y qué hace una neurona en el plano). Con el dibujo de la línea lo vi.
