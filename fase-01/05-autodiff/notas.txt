@@ -122,3 +122,29 @@ APUESTAS: 17 parámetros ✅ | aprende XOR ✅ | una neurona no puede ✅
 ERRORES QUE COMETÍ
 - No entendía qué preguntaban las apuestas 2 y 3 (qué es la pérdida
   y qué hace una neurona en el plano). Con el dibujo de la línea lo vi.
+
+
+LECCIÓN 1.05 · BLOQUE 4 — PYTORCH Y MODO HACIA DELANTE
+
+MI MOTOR CONTRA PYTORCH
+- Valor(2.0)  ↔  torch.tensor(2.0, requires_grad=True)
+- requires_grad=True = "guarda el grafo, que luego quiero el gradiente".
+- Neurona relu(w1·x1 + w2·x2 + b): los 5 gradientes IDÉNTICOS a PyTorch.
+  dy/dw1 = 2 (= x1), dy/dx1 = 0,5 (= w1), dy/dw2 = -1, dy/dx2 = -1,5, dy/db = 1
+- tanh(x³ + 2x + 1): 0,152524 en los dos.
+- El gradiente de un peso es el valor de su entrada:
+  si la entrada es 0, ese peso no aprende con ese ejemplo.
+
+MODO HACIA DELANTE (números duales)
+- Cada número lleva una "mochila": (valor, derivada).
+- x empieza con la mochila en 1.
+- Suma: (a+b, a'+b')     Producto: (a·b, a'·b + a·b')
+- x · x con x = 3 → (9, 6)
+
+¿CUÁL SE USA?
+- Hacia delante: una pasada POR ENTRADA.
+- Hacia atrás: una pasada POR SALIDA.
+- 1 millón de pesos y 1 pérdida → hacia atrás (1 pasada).
+  Por eso PyTorch entrena con backpropagation.
+- g = x1·x2 + x1: dg/dx1 = 4 porque llega por dos caminos (3 + 1).
+
