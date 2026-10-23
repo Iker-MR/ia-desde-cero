@@ -38,4 +38,45 @@ ERRORES QUE COMETÍ
 - dy/db en x1·x2 + b: el gradiente es 1, no el valor de b.
 - El += : sirve para sumar los gradientes que llegan por varios caminos.
 
-TEST BLOQUE 1: 4/6
+
+LECCIÓN 1.05 · BLOQUE 2 — MÁS OPERACIONES Y COMPROBACIÓN DE GRADIENTES
+
+RESTA
+- y = a - b  →  dy/da = +1, dy/db = -1.
+- Gradiente negativo = si subes ese número, el resultado BAJA (como un descuento).
+- En el código no tiene regla propia: a - b = a + (-1 · b).
+  Se construye con suma y producto, y la regla de la cadena hace el resto.
+
+POTENCIA
+- Regla: x^n  →  n · x^(n-1)  ("baja el exponente y réstale 1").
+- x² con x = 3 → 2 · 3 = 6 (igual que x · x).
+- x³ con x = 2 → 3 · 2² = 12.
+- Se usa en la pérdida: (predicción - real)².
+
+TANH
+- Aplasta cualquier número entre -1 y 1.
+- Gradiente: 1 - tanh².  Vale 1 en x = 0 y casi 0 lejos de 0.
+  x = 0 → 1      x = 2 → 0,0707      x = 5 → 0,0002
+- SATURACIÓN: con valores grandes, la tanh se queda pegada a 1,
+  el gradiente es casi 0 y la neurona aprende muy despacio
+  (desvanecimiento de gradientes, como en la 1.03).
+
+COMPROBACIÓN DE GRADIENTES (gradient check)
+- Numérico: (f(x + h) - f(x - h)) / 2h  → mide moviendo x un poquito.
+- No usa mis _backward, así que sirve de ÁRBITRO.
+- Si autodiff y numérico coinciden (diferencia < 1e-5) → OK.
+  Si no → hay un fallo en algún _backward.
+- Experimento: rompí la tanh (1 - t en vez de 1 - t²):
+    x³ + 2x + 1          → OK (no usa tanh)
+    tanh(x³ + 2x + 1)    → ¡FALLO! (autodiff 0,077 vs numérico 0,153)
+    (x - 3)² · tanh(x)   → ¡FALLO!
+- Python NO dio ningún error: los gradientes salen mal en silencio.
+- En x = 0 el fallo se escondía (1 - 0 = 1 - 0²) →
+  comprobar siempre con varias fórmulas y varios valores.
+
+ERRORES QUE COMETÍ
+- Gradiente de la tanh: dije que era mayor en x = 5, pero es mayor en x = 0.
+  El gradiente no es cuánto VALE la función, sino cuánto SE MUEVE.
+- No sabía qué haría la comprobación al romper la tanh:
+  el numérico no cambia, el autodiff sí, y por eso salta el FALLO.
+
