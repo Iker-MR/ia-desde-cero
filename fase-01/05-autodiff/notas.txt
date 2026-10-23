@@ -1,0 +1,41 @@
+LECCIÓN 1.05 · REGLA DE LA CADENA Y AUTODIFF — BLOQUE 1
+
+QUÉ ES UN GRADIENTE
+- Cuánto sube el resultado si un número sube 1 (un poquito).
+- No es el valor del número: es cuánto influye en el resultado.
+
+REGLAS LOCALES (cada operación solo sabe la suya)
+- Suma: deja pasar el gradiente tal cual (×1).
+- Producto: cada factor recibe lo que vale EL OTRO factor.
+- Relu: ×1 si la entrada es positiva, ×0 si no (grifo abierto/cerrado).
+
+REGLA DE LA CADENA
+- Multiplicar lo que pasa en cada tramo del camino.
+- Ejemplo tienda: (producto + envío) · cajas.
+  Si el producto sube 1 €, el total sube 1 · nº de cajas.
+
+BACKWARD (backpropagation)
+- Empieza por el final con gradiente 1 (la semilla).
+- Cada nodo reparte: lo que le llega × su tramo.
+- Una sola pasada hacia atrás da TODOS los gradientes.
+- Antes se ordena el grafo (orden topológico): cada nodo reparte
+  solo cuando ya ha recibido todo lo suyo.
+
+DETALLES IMPORTANTES
+- grad += (no =): si una variable llega por varios caminos, se suman.
+  y = x · x con x = 3 → 3 + 3 = 6 = 2x.
+- Por eso en PyTorch hay que hacer optimizer.zero_grad() en cada paso.
+- Neurona muerta: si la relu siempre recibe negativos, gradiente 0
+  y deja de aprender.
+
+RESULTADO
+y = relu(x1·x2 + b), x1=2, x2=3, b=1  →  y = 7, gradientes 3, 2 y 1
+Con x2 = -3                           →  y = 0, gradientes 0, 0 y 0
+
+ERRORES QUE COMETÍ
+- Envío en la tienda: dije +1 €, pero se paga en cada caja → +4 €.
+- Una caja más: dije +4 €, pero cuesta lo que vale una caja → +3 €.
+- dy/db en x1·x2 + b: el gradiente es 1, no el valor de b.
+- El += : sirve para sumar los gradientes que llegan por varios caminos.
+
+TEST BLOQUE 1: 4/6
