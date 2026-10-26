@@ -60,3 +60,41 @@ ERRORES QUE COMETÍ
 - Valor esperado: dije "1 €", pero eso es en 6 partidas → 0,17 € por partida.
 - No sabía calcular "más de 182 cm": 100 − 68 = 32, entre dos colas = 16 %.
 
+
+LECCIÓN 1.06 · BLOQUE 3 — SOFTMAX Y ENTROPÍA CRUZADA
+
+LOGITS
+- La última capa da PUNTUACIONES, no probabilidades:
+  pueden ser negativas y no suman 1.
+
+SOFTMAX (puntuaciones → probabilidades)
+1. e^x a cada logit (todo positivo, agranda diferencias)
+2. dividir entre la suma (todo suma 1)
+- [2, 1, 0.1] → 0,66 / 0,24 / 0,10      [3, 3, 3] → 0,33 cada uno
+- Solo importa la DIFERENCIA: [102, 101, 100.1] da lo mismo.
+- Truco: restar el máximo antes de e^x. Mismo resultado y sin
+  desbordamiento (sin truco, [1000, 999, 998] → "math range error").
+
+ENTROPÍA CRUZADA (la pérdida de los LLM)
+- pérdida = −log(probabilidad que dio a la respuesta correcta)
+- 0,99 → 0,01 | 0,5 → 0,69 | 0,1 → 2,30 | 0,01 → 4,61 | 0,0001 → 9,21
+- Castiga muchísimo equivocarse CONVENCIDO.
+- Probabilidad 0 → −log(0) = infinito → error en Python, inf/NaN en PyTorch.
+
+TEMPERATURA (parámetro de la API de Claude)
+- Divide los logits entre T antes de la softmax.
+- T baja (0,2) → diferencias enormes → 99,3 % a la favorita → PREDECIBLE
+  (extraer datos, código, clasificar).
+- T alta (5) → diferencias pequeñas → 40/33/27 → VARIADO (tareas creativas).
+
+LOGARITMOS
+- Probabilidad de un texto = producto de las de sus palabras.
+- 200 palabras con P = 0,01 → 10^-400 → se redondea a 0 SIN AVISAR.
+- Sumando logs: −921, un número normal → los LLM usan siempre logs.
+
+ERRORES QUE COMETÍ
+- Temperatura: creí que T baja = más creativo. Es al revés:
+  T baja multiplica los logits → la favorita gana siempre.
+
+
+LECCIÓN 1.06 COMPLETA: 17/18
