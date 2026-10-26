@@ -1,0 +1,32 @@
+LECCIÓN 1.06 · PROBABILIDAD Y DISTRIBUCIONES — BLOQUE 1
+
+PROBABILIDAD
+- P = casos que me sirven / casos posibles.
+- Siempre entre 0 (imposible) y 1 (seguro).
+- La suma de todos los resultados posibles = 1.
+
+PROBABILIDAD CONDICIONADA  P(A | B) = "A sabiendo que B"
+- La información nueva REDUCE los casos posibles.
+- P(6) = 1/6, pero P(6 | par) = 1/3 (solo quedan 2, 4 y 6).
+- En código: filtrar y contar dentro del filtro.
+- Un LLM calcula P(siguiente palabra | texto anterior).
+
+INDEPENDENCIA
+- Saber una cosa no cambia la otra (monedas) → se MULTIPLICA.
+- 3 monedas: 0,5 · 0,5 · 0,5 = 1/8. Cada moneda divide entre 2.
+- Sin devolución NO hay independencia: cambian los casos que sirven
+  Y los posibles. 2º as: 3/39 (no 3/40).
+
+LEY DE LOS GRANDES NÚMEROS
+- La FRACCIÓN de éxitos no crece con más tiradas: se estabiliza
+  en la probabilidad real.
+- Más de 4 en un dado: 10 tiradas 0,10 | 1.000 → 0,32 | 100.000 → 0,33
+- Con pocos datos manda la suerte → en IA hacen falta muchos datos.
+
+ERRORES QUE COMETÍ
+- 3 monedas: dije 0,109 → es 0,125 (1/8).
+- 2º as: dije 3/40 → es 3/39 (también falta una carta en total).
+- Creí que con más tiradas la fracción se acercaba a 1:
+  eso es "que salga ALGUNO", no "qué fracción sale".
+
+TEST BLOQUE 1: 6/6
