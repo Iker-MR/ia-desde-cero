@@ -29,4 +29,34 @@ ERRORES QUE COMETÍ
 - Creí que con más tiradas la fracción se acercaba a 1:
   eso es "que salga ALGUNO", no "qué fracción sale".
 
-TEST BLOQUE 1: 6/6
+
+
+LECCIÓN 1.06 · BLOQUE 2 — MEDIA, VARIANZA Y CAMPANA DE GAUSS
+
+VALOR ESPERADO
+- Cada resultado × su probabilidad, todo sumado. Es la media "a la larga".
+- Juego: 6 € con un 6, −1 € si no → 6·1/6 − 1·5/6 = +0,17 €/partida.
+  Truco: pensar en 6 partidas típicas y dividir entre 6.
+- En IA: la pérdida es el error MEDIO sobre los datos.
+
+VARIANZA Y DESVIACIÓN TÍPICA
+- Varianza = media de (distancia a la media)². Mide lo repartidos que están.
+- Clases con media 5: A [5,5,5,5] → 0 | C [4,6,4,6] → 1 | B [0,10,0,10] → 25
+- Desviación típica = √varianza (mismas unidades que los datos).
+
+CAMPANA DE GAUSS (normal)
+- Media ± 1 desviación → 68 % | ± 2 → 95 % | ± 3 → 99,7 %
+- Es simétrica: lo que queda fuera se reparte A PARTES IGUALES en dos colas.
+  Alturas (175, desv. 7): > 182 cm → 16 % | > 189 cm → 2,5 %
+- random.gauss(media, desviación) genera números con forma de campana.
+
+TEOREMA CENTRAL DEL LÍMITE
+- Promediar muchas cosas aleatorias → forma de campana.
+  1 dado: plano | media de 2: triángulo | media de 30: campana (2,8 a 4,2)
+- Cuanto más promedias, más ESTRECHA (menos varianza).
+- En IA: lote pequeño → gradiente ruidoso; lote grande → estable pero más caro.
+
+ERRORES QUE COMETÍ
+- Valor esperado: dije "1 €", pero eso es en 6 partidas → 0,17 € por partida.
+- No sabía calcular "más de 182 cm": 100 − 68 = 32, entre dos colas = 16 %.
+
