@@ -1,0 +1,39 @@
+LECCIÓN 1.07 · TEOREMA DE BAYES — BLOQUE 1
+
+LA IDEA
+- Lo que creías antes + la prueba nueva → lo que crees ahora.
+- Prior = lo que creías antes (lo común que es algo).
+- Posterior = lo que crees después de ver la prueba.
+- Una prueba NUNCA se interpreta sola: depende del prior.
+
+LOS 4 PASOS (contando casos)
+1. Positivos de verdad
+2. Positivos falsos (falsas alarmas)
+3. Total de positivos = verdaderos + falsos
+4. Verdaderos / TOTAL DE POSITIVOS (no entre el grupo entero)
+
+EJEMPLOS
+- Pueblo, 10 enfermos de 1.000 → 10 / (10 + 99) ≈ 9 %
+- Pueblo, 100 enfermos de 1.000 → 100 / (100 + 90) ≈ 53 %
+  Mismo test, distinto prior → conclusión muy distinta.
+- Enfermedad 1 de 10.000, test del 99 % → 1 / (1 + 100) ≈ 1 %
+- Spam con "lotería": 15 / (15 + 0,7) ≈ 95,5 % (antes de leerlo: 30 %)
+- Alarmas de coche: como los robos son raros, casi todas son falsas.
+
+ACTUALIZAR CON CADA PRUEBA
+- El posterior de una prueba es el prior de la siguiente.
+- Enfermedad rara: 0,01 % → 0,98 % → 49,5 % → 99 %
+- Sube tanto porque es raro equivocarse 2 veces con el mismo sano:
+  de 100 falsas alarmas solo sobrevive 1.
+
+EN CÓDIGO
+  verdaderos = acierta_si_es_verdad * prior
+  falsos     = falsa_alarma * (1 - prior)
+  posterior  = verdaderos / (verdaderos + falsos)
+
+ERRORES QUE COMETÍ
+- Test del 99 %: aposté por 99 %, y es ≈ 1 %.
+- Dividí entre 1.000 (todo el pueblo) en vez de entre 190 (los positivos).
+- "1 de cada 20" de 300: dije 60, y es 300 / 20 = 15.
+- 2º positivo: creí que subía un poco, y sube al 49,5 %.
+
