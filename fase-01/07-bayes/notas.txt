@@ -37,3 +37,36 @@ ERRORES QUE COMETÍ
 - "1 de cada 20" de 300: dije 60, y es 300 / 20 = 15.
 - 2º positivo: creí que subía un poco, y sube al 49,5 %.
 
+
+LECCIÓN 1.07 · BLOQUE 2 — FILTRO DE SPAM NAIVE BAYES
+
+LA IDEA
+- Cada palabra es una PISTA que MULTIPLICA la sospecha.
+- Multiplicador = cuántas veces más típica es en spam que en normal.
+  > 1 → empuja a spam | < 1 → empuja a normal | = 1 → no cambia nada
+- Mi filtro: gratis ×7,12 | dinero ×3,56 | premio ×2,38 |
+  reunión ×0,40 | informe ×0,40
+- "reunión gratis" → 7,12 · 0,40 ≈ ×2,8 → spam
+- Al final se combina con el prior (lo común que es el spam).
+
+POR QUÉ "NAIVE" (ingenuo)
+- Supone que las palabras son independientes (como monedas)
+  para poder multiplicar. No es verdad ("Nueva" → "York"),
+  pero funciona sorprendentemente bien.
+
+ENTRENAR = CONTAR
+- Cuántas veces sale cada palabra en los spam y en los normales.
+- Sin gradientes ni épocas. Aprendió con 12 emails y acertó los 4 nuevos.
+- Se usa como primera prueba: si un modelo complejo no lo supera,
+  algo va mal.
+
+EL PROBLEMA DEL CERO → SUAVIZADO DE LAPLACE
+- Palabra nunca vista en spam → probabilidad 0 → anula TODO el spam.
+- "gratis gratis dinero premio reunión" sin suavizado:
+  spam = 0 (por reunión) y normal = 0 (por gratis, dinero, premio)
+  → en código: log(0) → "math domain error".
+- Solución: sumar 1 a todos los conteos → nada vale 0.
+- Se suman logaritmos en vez de multiplicar (como en la 1.06).
+
+APUESTAS: "reunión gratis" → spam ✅ | sin suavizado no encaja en ninguna ✅
+
