@@ -70,3 +70,32 @@ EL PROBLEMA DEL CERO → SUAVIZADO DE LAPLACE
 
 APUESTAS: "reunión gratis" → spam ✅ | sin suavizado no encaja en ninguna ✅
 
+
+LECCIÓN 1.07 · BLOQUE 3 — APRENDER SOBRE LA MARCHA Y TESTS A/B
+
+LA LIBRETA DE ÉXITOS Y FALLOS (distribución Beta)
+- Dos contadores: éxitos y fallos.
+- Se empieza con 1 y 1 imaginarios = "no sé nada" (50 %). Es el prior.
+- Actualizar = SUMAR los nuevos éxitos y fallos.
+- Estimación = éxitos / (éxitos + fallos)
+- Moneda: 1/1 (0,50) → +7 y 3 → 8/4 (0,67) → +5 y 5 → 13/9 (0,59)
+- Todo de golpe (12 y 8) → 13/9 igual: no hace falta guardar datos antiguos.
+
+MÁS DATOS = MENOS INCERTIDUMBRE
+- 7 de 10 y 700 de 1.000 son ambos 70 %, pero del segundo me fío mucho más.
+
+TEST A/B (botón azul contra verde)
+- Cada botón tiene su libreta (clics / no clics).
+- Se simula 100.000 veces: se saca un valor posible de cada tasa
+  y se cuenta cuántas veces gana el verde → P(verde mejor).
+- Regla: > 95 % lanzar el verde | < 5 % lanzar el azul | si no, seguir.
+- Mis resultados (≈ 5 % frente a 6,5–7 % de clics):
+    100 visitas    → 71,7 %  → seguir recogiendo datos
+    1.000 visitas  → 92,3 %  → seguir recogiendo datos (¡aun así!)
+    10.000 visitas → 100 %   → lanzar el verde
+- Error típico en empresas: decidir en cuanto un botón va ganando.
+
+APUESTA: solo el caso 3 estaría claro ✅
+
+
+LECCIÓN 1.07 COMPLETA: 15/18
