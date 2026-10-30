@@ -25,3 +25,34 @@ ERRORES QUE COMETÍ
 - P = 1/2 → dije 2 bits; es 1 bit (2 opciones = 1 pregunta).
 
 TEST BLOQUE 1: 5/6 
+
+
+LECCIÓN 1.09 · BLOQUE 2 — ENTROPÍA CRUZADA Y KL
+
+ENTROPÍA CRUZADA = sorpresa media cuando esperas Q y la realidad es P
+- Sevilla en agosto (realidad: sol 97 %, nubes 2 %, lluvia 1 %):
+  Sevillano (espera lo mismo)          → 0,22 bits | KL 0,00
+  Turista prudente (80 / 15 / 5)       → 0,41 bits | KL 0,19
+  Turista de Londres (30 / 30 / 40)    → 1,73 bits | KL 1,51
+
+KL = sorpresa EXTRA por esperar algo distinto de la realidad
+- Entropía cruzada = entropía + KL   (1,73 = 0,22 + 1,51)
+- La entropía (0,22) es el SUELO: el azar que nadie puede evitar.
+- Entrenar = reducir la KL (acercar lo que espera el modelo a la realidad).
+- Ni el mejor LLM llega a pérdida 0: el lenguaje tiene azar de verdad.
+
+CLASIFICADOR (la realidad es 100 % una clase)
+- Entropía cruzada = −log₂(prob. de la correcta) = la pérdida de la 1.06.
+  25 % → 2 bits | 66 % → 0,60 | 99 % → 0,01
+
+EL TURISTA SE ACOSTUMBRA (= entrenar)
+- KL: 1,511 → 0,272 → 0,058 → 0,010 → 0,002 → 0
+- Baja rápido al principio y despacio al final, como las curvas de pérdida.
+
+UNIDADES
+- bits (log₂) o nats (logaritmo natural, el que usa PyTorch).
+- 66 % → 0,60 bits = 0,42 nats. Misma idea, distinta unidad.
+
+APUESTA: la KL baja a lo largo del mes ✅
+
+TEST BLOQUE 2: 4/6
