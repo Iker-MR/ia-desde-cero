@@ -56,3 +56,33 @@ UNIDADES
 APUESTA: la KL baja a lo largo del mes ✅
 
 TEST BLOQUE 2: 4/6
+
+
+
+LECCIÓN 1.09 · BLOQUE 3 — PERPLEJIDAD E INFORMACIÓN MUTUA
+
+PERPLEJIDAD = 2 ^ (entropía cruzada en bits)
+- Entre cuántas palabras igual de probables "duda" el modelo de media.
+- 1 bit → 2 | 3 bits → 8 | 4 bits → 16 | 0 bits → 1 (no duda nunca)
+- Es la nota estándar de los LLM. MENOS ES MEJOR.
+- Mi salida (frase de 6 palabras):
+  al azar (10.000 palabras) → 10.000 | flojo → 17,7 | bueno → 2,1 | perfecto → 1
+
+INFORMACIÓN MUTUA = bits de incertidumbre sobre Y que me quita saber X
+- 0 si son independientes.
+- "Lleva paraguas": saber si llueve → 0,397 bits | color de zapatos → 0
+- Sirve para ELEGIR COLUMNAS: me quedo con las de más información mutua
+  con lo que quiero predecir.
+
+CORRELACIÓN vs INFORMACIÓN MUTUA
+- y = x² (x de −2 a 2): correlación 0,000 | información mutua 1,522 bits
+- La correlación solo ve líneas rectas (aquí las dos mitades se cancelan).
+- La información mutua ve CUALQUIER relación.
+- No tirar columnas solo porque su correlación sea 0.
+
+APUESTA: "se detectará" → solo la información mutua lo detecta.
+  La correlación da 0.
+
+TEST BLOQUE 3: 6/6
+
+LECCIÓN 1.09 COMPLETA: 15/18
