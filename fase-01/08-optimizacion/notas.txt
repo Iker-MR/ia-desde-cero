@@ -27,3 +27,34 @@ EN PYTORCH
 APUESTAS: y rebota ✅ | x baja despacio ✅ | con momento llega antes ✅
 
 TEST BLOQUE 1: 6/6
+
+
+LECCIÓN 1.08 · BLOQUE 2 — ADAM
+
+EL PROBLEMA QUE QUEDA
+- Con el momento todos los pesos usan la MISMA tasa.
+- Unos pesos tienen pendientes enormes y otros diminutas:
+  ninguna tasa única sirve para todos.
+
+ADAM: CADA PESO CON SU PROPIO PASO (2 libretas por peso)
+- m = dirección media de la pendiente (es el momento)
+- v = media de las pendientes AL CUADRADO (lo fuertes que suelen ser)
+- paso = tasa × m / √v
+  Pendientes grandes → divide entre mucho → pasos pequeños (deja de rebotar)
+  Pendientes pequeñas → divide entre poco → pasos grandes (avanza)
+- "Convierte el barranco en un cuenco redondo".
+- Corrección del arranque: m y v empiezan en 0 → se inflan al principio.
+
+MIS RESULTADOS: PLÁTANO DE ROSENBROCK (estrecho y curvo), de (−1, 1) a (1, 1)
+- Descenso normal: 18.599 pasos
+- Momento:          9.260 pasos (2 veces más rápido)
+- Adam:               767 pasos (24 veces más rápido)
+- Tras 5.000 pasos: normal (0,80; 0,64) | momento (0,94; 0,88) | Adam (1; 1)
+
+REGLA DE ORO EN PYTORCH
+  torch.optim.Adam(modelo.parameters(), lr=0.001)
+  torch.optim.AdamW(modelo.parameters(), lr=0.001, weight_decay=0.01)  ← LLM
+
+APUESTA: Adam > momento > normal ✅
+
+TEST BLOQUE 2: 6/6
