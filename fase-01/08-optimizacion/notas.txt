@@ -58,3 +58,35 @@ REGLA DE ORO EN PYTORCH
 APUESTA: Adam > momento > normal ✅
 
 TEST BLOQUE 2: 6/6
+
+
+LECCIÓN 1.08 · BLOQUE 3 — VALLES CON TRAMPAS Y TASA QUE CAMBIA
+
+CONVEXO vs NO CONVEXO
+- Convexo (x²): un solo fondo; bajes por donde bajes, llegas.
+- Pérdida de una red: muchos fondos, mesetas y PUNTOS DE SILLA.
+
+PUNTO DE SILLA (silla de montar)
+- Fondo en una dirección, cima en otra. Pendiente = 0.
+- El descenso de gradiente cree que ha llegado y se para.
+- En millones de dimensiones son MUCHO más comunes que los fondos falsos.
+
+EL RUIDO AYUDA
+- Lotes pequeños → gradiente ruidoso → empujoncitos aleatorios
+  → la bola se cae de la silla y sigue bajando.
+- Mi prueba (fondo de verdad: pérdida −0,25):
+  Sin ruido → (0, 0), pendiente 0, pérdida 0 → ATASCADA
+  Con ruido 0,01 → y = −1, pérdida −0,25 → FONDO DE VERDAD
+
+CALENTAMIENTO + COSENO (lo que se usa con los LLM)
+- Calentamiento: tasa de 0 al máximo poco a poco
+  (pesos aleatorios al principio → pasos grandes = peligro).
+- Coseno: baja suave hasta 0 → afinar sin rebotar alrededor del fondo.
+- Mi salida (máx. 0,001): paso 0 → 0 | 100 → 0,001 | 300 → 0,00088 |
+  550 → 0,0005 | 800 → 0,00012 | 1000 → 0
+
+APUESTAS: sin ruido se atasca ✅ | con ruido llega al fondo ✅
+
+TEST BLOQUE 3: 6/6
+
+LECCIÓN 1.08 COMPLETA: 18/18 
