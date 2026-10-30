@@ -1,0 +1,27 @@
+LECCIÓN 1.09 · TEORÍA DE LA INFORMACIÓN — BLOQUE 1: SORPRESA Y ENTROPÍA
+
+SORPRESA
+- Lo improbable informa más. Lo seguro no informa nada (0 bits).
+- Sorpresa en bits = cuántas preguntas de sí o no harían falta.
+  P = 1/2 → 1 bit | 1/4 → 2 | 1/8 → 3 | 1/16 → 4 | 1/1.000 → 9,97 (≈ 10)
+- Fórmula: sorpresa = −log₂(p)  ← la misma que la pérdida de la 1.06.
+- La pérdida de un LLM = cuánto le sorprende la palabra correcta.
+  Entrenar = hacer que se sorprenda lo menos posible.
+
+ENTROPÍA = SORPRESA MEDIA = cuánta incertidumbre hay
+- Moneda normal: 1 bit | moneda trucada 99 %: 0,08
+- Dado normal: 2,58 | dado trucado (6 al 90 %): 0,70
+- Sevilla en agosto (97 % sol): 0,22 → muy predecible
+- Máxima cuando todo es igual de probable; 0 cuando el resultado es seguro.
+  Dado trucado hacia el 6: 2,58 → 2,51 → 2,16 → 1,58 → 0,70 → 0
+
+EN IA
+- Entropía baja en las predicciones = modelo seguro.
+- Entropía alta = modelo que duda (puede "no saber").
+
+APUESTAS: máxima con el dado normal ✅ | 0 si sale 6 siempre ✅
+
+ERRORES QUE COMETÍ
+- P = 1/2 → dije 2 bits; es 1 bit (2 opciones = 1 pregunta).
+
+TEST BLOQUE 1: 5/6 
