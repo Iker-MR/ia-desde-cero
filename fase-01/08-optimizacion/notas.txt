@@ -1,0 +1,29 @@
+LECCIÓN 1.08 · OPTIMIZACIÓN — BLOQUE 1: EL MOMENTO
+
+EL PROBLEMA: LOS VALLES ESTRECHOS (barrancos)
+- Paredes muy empinadas de lado, suelo casi plano a lo largo.
+- El descenso normal gasta el paso rebotando de pared a pared (ZIGZAG)
+  y apenas avanza hacia el fondo.
+- No se arregla subiendo la tasa: las paredes ponen el límite
+  y un poco más hace que se dispare.
+
+LA SOLUCIÓN: EL MOMENTO (una bola que coge velocidad)
+  velocidad = 0,9 × velocidad anterior + pendiente actual
+  posición  = posición − tasa × velocidad
+- 0,9 = la inercia: conservo el 90 % de la velocidad que llevaba.
+- Empujones de lado (+, −, +, −) → se CANCELAN.
+- Empujones a lo largo (→, →, →) → se SUMAN y acelera.
+
+MIS RESULTADOS (barranco x² + 100·y², desde (10, 1))
+- Primeros pasos normales: y = −0,80, +0,64, −0,51, +0,41… (zigzag)
+  x solo baja de 10 a 8,97 en 6 pasos.
+- Normal, tasa 0,009  → 317 pasos
+- Normal, tasa 0,0101 → se dispara
+- Momento 0,9, tasa 0,005 → 97 pasos (3 veces más rápido con la mitad de tasa)
+
+EN PYTORCH
+  torch.optim.SGD(modelo.parameters(), lr=0.01, momentum=0.9)
+
+APUESTAS: y rebota ✅ | x baja despacio ✅ | con momento llega antes ✅
+
+TEST BLOQUE 1: 6/6
