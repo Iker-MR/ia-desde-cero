@@ -12,3 +12,5 @@ data/
 .ipynb_checkpoints/
 # Claves y secretos
 .env
+__pycache__/
+*.pyc
