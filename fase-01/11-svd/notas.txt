@@ -25,3 +25,31 @@ MI RECOMENDADOR (6 usuarios × 5 películas)
 
 APUESTAS: 2 capas importantes ✅ | Sara e Iker cerca de 0 ✅
 
+
+LECCIÓN 1.11 · BLOQUE 2 — COMPRIMIR IMÁGENES Y LoRA
+
+UNA FOTO ES UNA MATRIZ (brillo de cada píxel, 0–255)
+- Foto de 427 × 640 = 273.280 números.
+- Valores singulares: 83.442 · 15.393 · 9.760 … y el 400 vale 8.
+  → las primeras capas pesan muchísimo más → se puede comprimir mucho.
+- k capas ocupan k × (427 + 640 + 1) números:
+  5 capas  →  2,0 % | error 20,7 | solo manchas
+  20 capas →  7,8 % | error 14,7 | se reconoce, algo borrosa
+  50 capas → 19,5 % | error 11,2 | casi como el original
+- Primeras capas = formas grandes | últimas = detalles finos y ruido.
+
+LoRA (Low-Rank Adaptation): ajustar un LLM tocando pocos pesos
+- Al ajustar (fine-tuning), el CAMBIO de cada capa suele tener pocas capas.
+- Mi simulación (capa de 1.000 × 1.000):
+  valores singulares 1.071 · 1.058 · 989 · 902 · 6 · 6 … → 4 capas + ruido
+- LoRA aprende cambio ≈ A × B (A: 1.000 × r, B: r × 1.000).
+  r = 4 → 8.000 números en vez de 1.000.000 (0,8 %)
+- Por eso se puede ajustar un LLM grande en una sola GPU.
+- El parámetro r de LoRA (librería PEFT) = cuántas capas deja aprender.
+  Típico: 4, 8, 16. Más r = más capacidad y más memoria.
+
+APUESTAS: con 20 capas se reconoce ✅ (bien del todo con 50) | unos pocos valores grandes ✅ (4)
+
+TEST BLOQUE 2: 6/6
+
+LECCIÓN 1.11 COMPLETA: 11/12
