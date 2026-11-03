@@ -30,3 +30,37 @@ ERRORES QUE COMETÍ
 - Pensé que (6, -1) no era posible y (4, 4) sí: es al revés.
 
 TEST BLOQUE 1: 4/6
+
+
+LECCIÓN 1.12 · BLOQUE 2 — BROADCASTING Y EINSUM
+
+BROADCASTING: operar con formas distintas
+1. Alinear las formas POR LA DERECHA.
+2. En cada columna: iguales, o uno de los dos es 1 (el 1 se estira).
+3. Si a una le faltan ejes, se le añaden unos por la izquierda.
+- (4, 3) + (3,)   → (4, 3): un extra por asignatura
+- (4, 3) + (4,)   → ERROR: el 4 queda debajo del 3
+- (4, 3) + (4, 1) → (4, 3): un extra por alumno (hay que usar una columna)
+
+EL FALLO SILENCIOSO
+- prediccion (3, 1) − real (3,) → (3, 3): todas con todas, SIN ERROR.
+- Error cuadrático medio: correcto 0,03 | con el fallo 5,23 (≈ 175 veces más)
+- Arreglo: prediccion[:, 0] o squeeze → (3,)
+- Hábito: print(prediccion.shape, real.shape) antes de la pérdida.
+  No ignorar el warning de nn.MSELoss en PyTorch.
+
+EINSUM: una letra por eje
+- Letras que desaparecen tras la flecha → se SUMAN.
+- Letras que quedan → se conservan.
+  "i,i->"         producto escalar (1.01)
+  "ik,kj->ij"     matriz × matriz (1.02), la k se cancela
+  "bik,bkj->bij"  un lote de multiplicaciones a la vez
+  "ij->i"         suma de cada fila = sum(axis=1)
+
+APUESTAS: (4, 3) ✅ | (4, 3) + (4, 1) → (4, 3) ✅ | (3, 1) − (3,) → (3, 3) ✅ |
+  con el fallo, la pérdida muchísimo más grande ✅ (5,23 frente a 0,03)
+
+ERRORES QUE COMETÍ
+- (4, 3) + (4,): me atasqué; no encaja porque se alinea por la derecha.
+
+TEST BLOQUE 2: 6/6
