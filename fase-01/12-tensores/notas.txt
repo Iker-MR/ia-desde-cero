@@ -1,0 +1,32 @@
+LECCIÓN 1.12 · OPERACIONES CON TENSORES — BLOQUE 1: QUÉ ES UN TENSOR
+
+TENSOR = tabla de números con cualquier número de dimensiones (ejes)
+- 0 dim: nota ()  | 1 dim: alumno (2,) | 2 dim: clase (4, 2)
+- 3 dim: colegio (3 clases, 4 alumnos, 2 asignaturas) = (3, 4, 2) → 24 números
+- Total de números = multiplicar la forma.
+
+FORMAS TÍPICAS
+- Fotos (B, C, H, W) = (32, 3, 224, 224) → 4.816.896 números
+- Texto (B, T, D) = (16, 128, 768): frases, tokens, embedding de cada token
+- B = lote (batch), casi siempre el primer eje.
+
+REDUCIR UN EJE (mean, sum, max…)
+- El eje que pongo en axis DESAPARECE (se junta).
+- TRUCO: "¿qué quiero juntar?" → ese es el axis.
+- Colegio (3, 4, 2):
+  axis=0 → juntar clases      → (4, 2)
+  axis=1 → juntar alumnos     → (3, 2): media de cada clase por asignatura
+  axis=2 → juntar asignaturas → (3, 4): nota media de cada alumno
+- Embedding de una frase: (16, 128, 768).mean(axis=1) → (16, 768)
+
+CAMBIAR DE FORMA
+- reshape: mismos números, otra forma. El total tiene que coincidir.
+  12 números: (3, 4) ✓ | (2, 2, 3) ✓ | (6, -1) = (6, 2) ✓ | (4, 4) ✗ | (5, 3) ✗
+- -1 = "calcúlalo tú".
+- v[None, :] → fila (1, 3) | v[:, None] → columna (3, 1) | squeeze quita ejes de tamaño 1
+
+ERRORES QUE COMETÍ
+- Media de cada alumno: dije eje 1, y es el eje 2 (lo que se juntan son las asignaturas).
+- Pensé que (6, -1) no era posible y (4, 4) sí: es al revés.
+
+TEST BLOQUE 1: 4/6
