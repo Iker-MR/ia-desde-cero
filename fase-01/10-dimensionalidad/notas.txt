@@ -1,0 +1,27 @@
+LECCIÓN 1.10 · REDUCCIÓN DE DIMENSIONALIDAD — BLOQUE 1: PCA
+
+EL PROBLEMA
+- Muchas columnas (píxeles, embeddings de 1.536 dimensiones…).
+- No se pueden dibujar, y muchas repiten casi la misma información.
+
+PCA (análisis de componentes principales)
+1. Centrar: restar la media de cada columna.
+2. Matriz de covarianza: cuánto varía cada columna (diagonal)
+   y cuánto se mueven juntas (fuera de la diagonal).
+3. Autovectores (1.03) = direcciones naturales de la nube.
+   Autovalor = dispersión en esa dirección.
+4. Ordenar de mayor a menor y quedarse con las primeras.
+5. Proyectar: cada dato pasa a ser unos pocos números.
+
+MI EJEMPLO: notas de Mates y Física de 200 alumnos
+- Covarianza [[3,008; 2,939]; [2,939; 3,25]] → se mueven casi siempre juntas.
+- Dirección 1 = [0,692; 0,721] → "nivel en ciencias" (la diagonal). Autovalor 6,071.
+- Dirección 2 = [−0,721; 0,692] → "¿más de Física o de Mates?". Autovalor 0,188.
+- Varianza explicada = autovalor / suma → dirección 1: 97 % | dirección 2: 3 %.
+- Reconstruir desde 1 número: [7,15; 6,19] → [6,68; 6,65].
+  Se pierde el detalle (dirección 2), se conserva el nivel general.
+  Error medio: 0,093.
+
+APUESTAS: pesan lo mismo ✅ | más del 90 % ✅ (97 %)
+
+TEST BLOQUE 1: 6/6
