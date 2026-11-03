@@ -24,4 +24,35 @@ MI EJEMPLO: notas de Mates y Física de 200 alumnos
 
 APUESTAS: pesan lo mismo ✅ | más del 90 % ✅ (97 %)
 
-TEST BLOQUE 1: 6/6
+
+LECCIÓN 1.10 · BLOQUE 2 — CUÁNTAS DIMENSIONES Y CÓMO DIBUJARLAS
+
+DÍGITOS ESCRITOS A MANO: 1.797 imágenes de 8x8 = 64 dimensiones
+
+¿CON CUÁNTAS COMPONENTES ME QUEDO?
+- Varianza explicada acumulada: quedarse con las que llegan al 90–95 %.
+- Mis dígitos: 50 % → 5 | 80 % → 13 | 90 % → 21 | 95 % → 29 (de 64)
+- Muchos píxeles se mueven juntos → pocas componentes guardan casi todo.
+
+RECONSTRUIR EL 0
+- 2 componentes (29 %): forma redonda emborronada
+- 10 (74 %): ya se reconoce
+- 30 (96 %): casi idéntico al original
+
+DIBUJAR EN 2D: PCA vs t-SNE
+- PCA: las 2 direcciones de más dispersión. Rápido, fiel a lo global,
+  pero los dígitos salen mezclados.
+- t-SNE: conserva los VECINOS. Lento, pero separa los grupos en islas.
+- Vecinos del mismo número en el dibujo: PCA 63,5 % | t-SNE 98,9 %
+- ¡Cuidado! En t-SNE las distancias ENTRE grupos no significan nada.
+
+CUÁNDO USAR CADA UNO
+- PCA → comprimir columnas antes de entrenar un modelo.
+- t-SNE / UMAP → dibujar datos (por ejemplo, embeddings de un LLM)
+  y ver qué forma grupos.
+
+APUESTAS: unas 20 componentes para el 90 % ✅ (21) | t-SNE separa mejor ✅
+
+
+
+LECCIÓN 1.10 COMPLETA: 12/12 (¡pleno!)
