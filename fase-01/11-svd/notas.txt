@@ -1,0 +1,27 @@
+LECCIÓN 1.11 · SVD — BLOQUE 1: UNA MATRIZ HECHA DE CAPAS
+
+POR QUÉ SVD
+- Los autovectores solo sirven para matrices CUADRADAS.
+- La SVD sirve para CUALQUIER matriz: usuarios × películas, imágenes,
+  capas de una red…
+
+LA IDEA
+- tabla = capa 1 + capa 2 + capa 3 + …  (de más a menos importante)
+- Cada capa = un patrón: "a estos usuarios les gustan estas películas".
+- Valor singular = cuánto pesa cada capa (como los autovalores de PCA).
+- Quedarse con las primeras capas = comprimir perdiendo muy poco.
+- En código: U, S, Vt = np.linalg.svd(R)
+  U = cada usuario en cada capa | S = pesos | Vt = cada película en cada capa
+
+MI RECOMENDADOR (6 usuarios × 5 películas)
+- Valores singulares: 17,37 · 7,54 · 1,57 · 0,84 · 0,38 → 2 capas importantes.
+- Capa 1 = cuánto te gustan las películas en general.
+- Capa 2 = acción (+) frente a romance (−). La SVD lo descubrió SOLA:
+  películas: acción +0,31/+0,43/+0,30 | románticas −0,55/−0,56
+  usuarios: Ana +0,51, Luis +0,43 | Marta −0,56, Pablo −0,49 | Sara −0,04, Iker −0,07
+- Error medio: 1 capa → 1,16 puntos | 2 capas → 0,28 puntos
+- A escala: 1.000 × 200 = 200.000 notas → 2 capas ≈ 2.400 números.
+- Un recomendador usa las capas para predecir las notas que faltan.
+
+APUESTAS: 2 capas importantes ✅ | Sara e Iker cerca de 0 ✅
+
