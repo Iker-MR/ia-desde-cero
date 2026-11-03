@@ -63,4 +63,37 @@ APUESTAS: (4, 3) ✅ | (4, 3) + (4, 1) → (4, 3) ✅ | (3, 1) − (3,) → (3, 
 ERRORES QUE COMETÍ
 - (4, 3) + (4,): me atasqué; no encaja porque se alinea por la derecha.
 
-TEST BLOQUE 2: 6/6
+TEST BLOQUE 2: 6/6 
+
+
+LECCIÓN 1.12 · BLOQUE 3 — LA ATENCIÓN, FORMA A FORMA
+
+LA IDEA: cada token mira a los demás
+- "El gato se subió al árbol porque ÉL tenía miedo" → "él" mira a "gato".
+- Como un buscador. Cada token genera:
+  Q (pregunta): ¿qué busco? | K (etiqueta): ¿qué ofrezco? | V (contenido): qué entrego
+
+LOS PASOS (B=2 frases, T=5 tokens, E=8 números, H=2 cabezas de D=4)
+0. Entrada X                                (2, 5, 8)
+1. Q, K, V = X @ W           (1.02)          (2, 5, 8)
+2. Separar cabezas: reshape + transpose      (2, 2, 5, 4)
+3. Puntuaciones = Q · K      (producto escalar, 1.01)
+   einsum "bhtd,bhsd->bhts"                  (2, 2, 5, 5) ← cada token con cada token
+4. Pesos = softmax por filas (1.06)          (2, 2, 5, 5) ← cada fila suma 1
+5. Salida = pesos · V
+   einsum "bhts,bhsd->bhtd"                  (2, 2, 5, 4)
+6. Juntar cabezas + W_o                      (2, 5, 8)   ← ¡igual que la entrada!
+
+LA TABLA DE ATENCIÓN (fila = token que mira, columna = token mirado)
+- Mis pesos eran aleatorios: el token 4 miraba al 2 (0,73), el 5 al 1 (0,77)…
+- En un modelo entrenado, "él" tendría un número grande en "gato".
+- Entrenar un LLM = aprender W_q, W_k y W_v para que cada token mire bien.
+
+POR QUÉ LA MISMA FORMA
+- Se pueden apilar capas de atención: un LLM tiene decenas.
+
+APUESTAS: puntuaciones (2, 2, 5, 5) ✅ | cada fila suma 1 ✅ | salida (2, 5, 8) ✅
+
+TEST BLOQUE 3: 5/6
+
+LECCIÓN 1.12 COMPLETA: 15/18
