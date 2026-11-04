@@ -1,0 +1,33 @@
+LECCIÓN 1.13 · ESTABILIDAD NUMÉRICA — BLOQUE 1: LOS NÚMEROS DEL ORDENADOR
+
+UNA CALCULADORA CON POCAS CIFRAS
+- float64 (Python): ~16 cifras | máximo 1,8 × 10^308
+- float32 (PyTorch): ~7 cifras  | máximo 3,4 × 10^38
+- float16:           ~3 cifras  | máximo 65.504
+- 1/3: float64 0,3333333333333333 | float32 0,33333334 | float16 0,33325
+
+PROBLEMA 1: decimales que no se pueden guardar exactos
+- 0,1 en binario tiene infinitos decimales → 0.1 + 0.2 = 0.30000000000000004
+- NUNCA comparar decimales con ==. Usar math.isclose() o np.allclose().
+
+PROBLEMA 2: sumar algo pequeño a algo grande se pierde
+- float32: 1.000.000 + 0,01 = 1.000.000
+- Sumar 0,01 mil veces → sigue en 1.000.000 (se pierden 10 unidades, sin aviso)
+- Pasa al entrenar: actualizaciones pequeñas que no mueven un peso grande.
+
+PROBLEMA 3: overflow y underflow
+- Demasiado grande → inf: 70.000 en float16, exp(89) en float32
+- Demasiado pequeño → 0: exp(−110) en float32, 0,00000001 en float16
+- inf − inf o 0 / 0 → NaN, que contamina todo.
+
+PROBLEMA 4: cancelación catastrófica
+- Restar dos números enormes casi iguales → solo queda el error de redondeo.
+- Varianza de datos cerca de 1.000.000 (debería ser ~0,0065):
+  media de cuadrados − cuadrado de la media → 65.536 (¡10 millones de veces más!)
+  centrando primero → 0,00651 ✓
+- Solución general: reorganizar la fórmula para trabajar con números
+  pequeños (centrar, restar el máximo en la softmax…).
+
+APUESTAS: False ✅ | sigue en 1.000.000 ✅ | varianza "parecida" ❌ (salió basura)
+
+TEST BLOQUE 1: 5/6
