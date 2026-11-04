@@ -31,3 +31,40 @@ PROBLEMA 4: cancelación catastrófica
 APUESTAS: False ✅ | sigue en 1.000.000 ✅ | varianza "parecida" ❌ (salió basura)
 
 TEST BLOQUE 1: 5/6
+
+
+LECCIÓN 1.13 · BLOQUE 2 — FORMATOS PARA ENTRENAR Y CAZAR NaN
+
+CADA NÚMERO = CIFRAS (precisión) + EXPONENTE (rango), como 3,14 × 10^5
+- float32:  8 bits de exponente, 23 de cifras → hasta 3,4 × 10^38, ~7 cifras
+- float16:  5 bits de exponente, 10 de cifras → solo hasta 65.504, ~3 cifras
+- bfloat16: 8 bits de exponente,  7 de cifras → hasta 3,4 × 10^38, ~2 cifras
+- Para ENTRENAR importa más el RANGO que la precisión → los LLM usan bfloat16.
+- 16 bits = mitad de memoria y mucho más rápido en GPU.
+
+MI SALIDA
+- 70.000:     float16 → inf | bfloat16 → 70.144 (impreciso, pero vale)
+- 0,00000001: float16 → 0   | bfloat16 → 1,001 × 10^-8 (se conserva)
+
+TRUCO 1: ESCALAR LA PÉRDIDA (con float16)
+- Gradiente 0,00000001 en float16 → 0 (se pierde)
+- × 65.536 → 0,000655 (cabe) → ÷ 65.536 en float32 → recuperado
+- En PyTorch: torch.amp.GradScaler()
+
+TRUCO 2: PRECISIÓN MIXTA
+- Peso 1,0 + 1.000 × 0,0001 (debería ser 1,1):
+  float16 → 1,0 | bfloat16 → 1,0 | float32 → 1,1
+- Calcular en 16 bits, pero guardar los pesos en float32.
+- En PyTorch: torch.autocast(device_type="cuda", dtype=torch.bfloat16)
+
+CAZAR UN NaN
+- Buscar el PRIMER paso no finito (np.isfinite / torch.isfinite).
+  Pérdidas [2,3; 1,9; 1,4; 1,1; 0,9; inf; nan; nan; nan] → paso 5 (inf)
+- Causas típicas: log(0), exp de un número grande, tasa demasiado alta,
+  valores fuera de rango en float16.
+
+APUESTAS: 70.000 en bfloat16 se guarda más o menos bien ✅ | el peso se queda en 1,0 ✅
+
+TEST BLOQUE 2: 6/6
+
+LECCIÓN 1.13 COMPLETA: 11/12
