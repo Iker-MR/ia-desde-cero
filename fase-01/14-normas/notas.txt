@@ -1,0 +1,101 @@
+
+LECCIÓN 1.14 · BLOQUE 1 — TRES FORMAS DE MEDIR LA DISTANCIA
+
+NORMA = el tamaño de un vector. Distancia(A, B) = norma de (B - A).
+Primero se restan las coordenadas. De A=(1,1) a B=(4,5): diferencias 3 y 4.
+- L1  (Manhattan, el TAXI):   SUMA las diferencias      → 3 + 4 = 7
+- L2  (Euclídea, la PALOMA):  Pitágoras, línea recta    → √(9 + 16) = 5
+- L∞  (Chebyshov, el REY):    la diferencia MÁS GRANDE  → 4
+- En numpy: np.linalg.norm(B - A, ord=1 / 2 / np.inf)
+
+SIEMPRE: L∞ ≤ L2 ≤ L1  (10.000 de 10.000 parejas)
+- El taxi nunca va más corto que la paloma.
+
+"CÍRCULO" DE RADIO 1 (puntos a distancia 1 del centro):
+- L1 → rombo (el más pequeño) | L2 → círculo | L∞ → cuadrado (el más grande)
+- (0,6; 0,6): L1 = 1,20 fuera | L2 = 0,85 dentro | L∞ = 0,60 dentro
+
+ERRORES DE UN MODELO
+- MAE = media de |error|  → usa L1
+- MSE = media de error²   → usa L2
+- Errores [1, 1, 1, 1, 10]: MAE 2,8 (el 10 aporta el 71 %)
+                           MSE 20,8 (el 10 aporta el 96 %)
+- El MSE se obsesiona con los datos raros (outliers); el MAE aguanta mejor.
+- Pérdida de Huber = MSE para errores pequeños + MAE para los grandes.
+
+APUESTAS: L1 la más grande ✅ | (0,6; 0,6) solo con L1 ❌ (era al revés) | el 10 en el MSE aporta un 20 % ❌ (96 %)
+
+TEST BLOQUE 1: 3/6
+
+
+LECCIÓN 1.14 · BLOQUE 2 — SIMILITUD DEL COSENO
+
+UN TEXTO = UNA FLECHA (cuántas veces dice cada palabra)
+- Palabras [gatos, fútbol]:
+  A: nota corta de gatos       (2, 0)
+  B: artículo LARGO de gatos   (10, 1)
+  C: crónica de fútbol         (1, 3)
+  Pregunta "háblame de gatos"  (1, 0)
+
+EL PROBLEMA DE L2 (la paloma mide entre PUNTAS)
+- L2: A 1,00 | C 3,00 | B 9,06  → ¡pone el fútbol por delante del artículo de gatos!
+- B parece lejos solo porque es un texto LARGO.
+
+LA SOLUCIÓN: EL COSENO (solo mira HACIA DÓNDE APUNTAN)
+- Coseno: A 1,000 | B 0,995 | C 0,316  → ordena bien
+- Mismo sitio = 1 | ángulo recto = 0 | opuestas = -1
+- (1,1) y (5,5): L2 = 5,66, pero coseno = 1 (misma dirección)
+- Fórmula: coseno = producto punto / (longitud de a × longitud de b)
+
+PRODUCTO PUNTO = multiplicar por parejas y sumar
+- (2,3)·(4,1) = 2×4 + 3×1 = 11
+
+NORMALIZAR = dejar la flecha con longitud 1, sin cambiar su dirección
+- B (10, 1) → (0,995; 0,1)
+- Con flechas normalizadas: producto punto = coseno (0,995 = 0,995)
+- Por eso las bases de datos vectoriales (Pinecone, Qdrant...) normalizan:
+  solo tienen que multiplicar y sumar, que es muy rápido.
+
+EN LA IA REAL (RAG)
+- El modelo de embeddings convierte cada texto en una flecha de cientos de números.
+- El buscador calcula el coseno entre tu pregunta y cada documento
+  y le pasa al chatbot los más parecidos.
+
+APUESTAS: con L2 gana el fútbol ✅ | coseno de (1,0) y (10,1) cerca de 0 ❌ (0,995) | (1,1) y (5,5) coseno 1 ✅
+
+TEST BLOQUE 2: 6/6
+
+
+LECCIÓN 1.14 · BLOQUE 3 — DISTANCIAS ESPECIALES
+
+JACCARD: para comparar LISTAS DE COSAS (conjuntos)
+- Jaccard = lo que compartís / todo lo distinto que sale entre los dos
+- Tú {acción, comedia, ciencia ficción} | amigo {acción, ciencia ficción, terror, drama}
+  → en común 2, distintos 5 → 2/5 = 0,40
+- De 0 (nada en común) a 1 (idénticos). Recomendaciones, etiquetas, duplicados.
+
+DISTANCIA DE EDICIÓN (Levenshtein): para PALABRAS
+- Cuántas letras hay que cambiar, borrar o añadir
+- gato→pato 1 | gato→gatos 1 | pyhton→python 2 (intercambiar = 2 cambios) | kitten→sitting 3
+- Corrector: "pyton" → ¿Quisiste decir "python"?
+
+MAHALANOBIS: para DATOS QUE VAN JUNTOS
+- Sabe que altura y peso suben juntos (persona media: 170 cm, 70 kg)
+- P1 185 cm, 85 kg (alta y pesada)  → L2 21,9 | Mahalanobis 1,6 (normal)
+- P2 155 cm, 85 kg (baja y pesada)  → L2 21,2 | Mahalanobis 5,9 (rara)
+- L2 no ve la diferencia; Mahalanobis detecta COMBINACIONES QUE NO ENCAJAN.
+- Fraudes, fallos de sensores, anomalías.
+
+QUÉ DISTANCIA USAR
+- Puntos, píxeles                 → L2
+- Errores con datos raros         → L1 / MAE
+- Textos, embeddings, RAG         → COSENO
+- Listas de etiquetas             → JACCARD
+- Palabras                        → EDICIÓN
+- Datos relacionados, anomalías   → MAHALANOBIS
+
+APUESTAS: Jaccard 0,4 ✅ | pyhton→python 2 ✅ | P2 la más rara ✅
+
+TEST BLOQUE 3: 6/6
+
+LECCIÓN 1.14 COMPLETA: 15/18 (bloque 1: 3/6 + repaso paso a paso, bloque 2: 6/6, bloque 3: 6/6)
