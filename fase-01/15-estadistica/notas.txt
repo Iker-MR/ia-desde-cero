@@ -27,3 +27,37 @@ DESVIACIÓN TÍPICA = cuánto se alejan los datos de la media, de normal
 APUESTAS: media 5 veces la mediana ✅ | P99 cerca de 200 ms ❌ (2.982 ms) | desviación de B unas 10 veces ✅ (14)
 
 TEST BLOQUE 1: 6/6
+
+
+LECCIÓN 1.15 · BLOQUE 2 — ¿ES REAL O ES SUERTE?
+
+CORRELACIÓN = ¿suben juntas dos cosas? Número entre -1 y +1
+- +1: una sube, la otra SUBE   → horas de estudio vs nota: +0,99
+- -1: una sube, la otra BAJA   → horas de móvil vs nota:   -0,99
+-  0: no tienen relación
+
+PEARSON vs SPEARMAN
+- Pearson usa los VALORES → un solo dato raro la engaña
+- Spearman usa los PUESTOS (1.º, 2.º, 3.º...) → aguanta los datos raros
+- 20 puntos al azar:           Pearson +0,18 | Spearman +0,11
+  + un punto en (100, 100):    Pearson +1,00 | Spearman +0,23
+
+CORRELACIÓN NO ES CAUSA
+- Helados y ahogamientos suben juntos porque los causa el VERANO.
+
+P-VALOR = si todo fuera suerte, ¿con qué frecuencia vería algo así de extremo?
+- p < 0,05 → difícil que sea suerte | p grande → puede ser suerte
+- 7 caras de 10   → p = 0,17    → puede ser suerte
+- 70 caras de 100 → p = 0,00004 → difícil que sea suerte
+- Misma proporción (70 %), pero MÁS PRUEBAS = más seguridad
+
+COMPARAR MODELOS (los dos igual de buenos, 0,88)
+- Test de 200 ejemplos:    diferencia de 0,02 por pura suerte el 59 % de las veces
+- Test de 10.000 ejemplos: diferencia de 0,02 por pura suerte el 0 % de las veces
+- 0,02 con 200 ejemplos = solo 4 aciertos más
+- IDEA CLAVE: con pocos datos, la suerte se parece mucho a una mejora.
+  Antes de elegir un modelo, pruébalo con muchos ejemplos.
+
+APUESTAS: Pearson se dispara ✅ | 7 de 10 puede ser suerte ✅ | 0,02 casi nunca por suerte ❌ (59 %)
+
+TEST BLOQUE 2: 5/6
